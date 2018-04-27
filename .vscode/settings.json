@@ -1,0 +1,7 @@
+{
+  "editor.formatOnSave": true,
+  "prettier.trailingComma": "all",
+  "prettier.eslintIntegration": true,
+  "prettier.singleQuote": true,
+  "javascript.suggestionActions.enabled": false
+}
