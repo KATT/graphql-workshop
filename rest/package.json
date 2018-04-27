@@ -6,11 +6,17 @@
   "private": true,
   "scripts": {
     "start": "json-server --watch db.json",
-    "dev": "npm run start -- --port 3101"
+    "dev": "npm run start -- --port 3101",
+    "gen": "nodemon -e js generate-db.js"
   },
   "author": "KATT",
   "license": "WTFPL",
   "dependencies": {
-    "json-server": "^0.12.2"
+    "json-server": "^0.12.2",
+    "lodash": "^4.17.10"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "nodemon": "^1.17.3"
   }
 }
