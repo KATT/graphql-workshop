@@ -2,19 +2,16 @@ const { GraphQLServer } = require('graphql-yoga');
 
 const { PORT = 3100, REST_SERVICE_URL = 'http://localhost:3101' } = process.env;
 
-const typeDefs = `
-  type Query {
-    hello(name: String): String!
-  }
-`;
-
 const resolvers = {
   Query: {
     hello: (_, { name }) => `Hello ${name || 'World'}`,
   },
 };
 
-const server = new GraphQLServer({ typeDefs, resolvers });
+const server = new GraphQLServer({
+  typeDefs: __dirname + '/schema.graphql',
+  resolvers,
+});
 
 server
   .start({
