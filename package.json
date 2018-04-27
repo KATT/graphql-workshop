@@ -1,0 +1,27 @@
+{
+  "name": "@katt/graphql-workshop",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "postinstall": "cd graphql && npm i && cd ../rest && npm i",
+    "dev:rest": "cd rest && npm run dev",
+    "dev:graphql": "cd graphql && npm run dev",
+    "dev": "run-p dev:*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KATT/graphql-workshop.git"
+  },
+  "author": "KATT",
+  "license": "WTFPL",
+  "bugs": {
+    "url": "https://github.com/KATT/graphql-workshop/issues"
+  },
+  "homepage": "https://github.com/KATT/graphql-workshop#readme",
+  "devDependencies": {
+    "npm-run-all": "^4.1.2"
+  }
+}
