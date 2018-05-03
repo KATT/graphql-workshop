@@ -3,7 +3,7 @@ describe('query.hello', () => {
   beforeEach(startServer);
   afterEach(stopServer);
 
-  it('can return hello', async () => {
+  it('returns greeting', async () => {
     const query = `
       query {
           hello(name: "KATT")
