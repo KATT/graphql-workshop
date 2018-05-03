@@ -24,6 +24,17 @@ global.testUtils = {
     }
   },
   uri: () => uri,
+  gqlRequest: async ({ query, variables }) => {
+    const opts = {
+      uri,
+      method: 'POST',
+      json: true,
+      body: { query, variables },
+    };
+    const body = await request(opts);
+
+    return body;
+  },
 };
 
 nock.emitter.on('no match', req => {
