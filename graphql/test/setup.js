@@ -2,6 +2,8 @@ const nock = require('nock');
 const _ = require('lodash');
 const request = require('request-promise-native');
 const { promisify } = require('util');
+const url = require('url');
+const qs = require('querystring');
 
 const server = require('../src/server');
 
@@ -39,21 +41,23 @@ global.testUtils = {
 
     return res;
   },
-  mock: (path, data) => {
+  mock: (pathname, data, match = () => true) => {
     nock(REST_SERVICE_URL)
-      .get(path)
+      .get(uri => {
+        const parts = url.parse(uri);
+        parts.q = qs.parse(parts.query);
+
+        return parts.pathname === pathname && match(parts);
+      })
       .reply(200, data);
   },
 };
 
 nock.emitter.on('no match', req => {
   if (!['127.0.0.1', 'localhost'].includes(req.hostname)) {
-    const message = `Tried making unnmocked request outside of localhost.`;
+    const picks = _.pick(req, ['method', 'port', 'hostname', 'path', 'proto']);
+    const message = `Unmatched request. (${JSON.stringify(picks)})`;
 
-    console.error(
-      message,
-      _.pick(req, ['method', 'port', 'hostname', 'path', 'proto']),
-    );
     throw new Error(message);
   }
 });

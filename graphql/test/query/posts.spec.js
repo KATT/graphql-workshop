@@ -94,5 +94,38 @@ describe('query.posts', () => {
         expect(body.data.posts[0].title).toBe('Hello world');
       });
     });
+    describe('with `limit` argument', () => {
+      it('queries `/posts/?_limit=x', async () => {
+        nock.cleanAll();
+        const fixture = [
+          {
+            id: 'post1',
+            title: 'Hello world',
+          },
+        ];
+
+        const postResponse = jest.fn(() => [200, fixture]);
+        mock('/posts', postResponse, ({ q }) => {
+          return q._limit === '1';
+        });
+
+        const query = `
+          query {
+              posts(limit: 1) { 
+                id
+                title
+              }
+          }
+        `;
+        const res = await gqlRequest({ query });
+        const body = res.body;
+
+        expect(postResponse).toHaveBeenCalledTimes(1);
+
+        expect(body.data.posts.length).toBe(1);
+        expect(body.data.posts[0].id).toBe('post1');
+        expect(body.data.posts[0].title).toBe('Hello world');
+      });
+    });
   });
 });

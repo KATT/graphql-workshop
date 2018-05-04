@@ -1,6 +1,7 @@
 const { GraphQLServer } = require('graphql-yoga');
 const DataLoader = require('dataloader');
 const request = require('request-promise-native');
+const querystring = require('querystring');
 
 const { REST_SERVICE_URL = 'http://localhost:3101' } = process.env;
 

@@ -7,9 +7,11 @@
     * [should exist on schema](#should-exist-on-schema)
     * [should contain fields _[...]_](#should-contain-fields-__)
     * [Query.posts should be defined](#queryposts-should-be-defined)
-  * [query without params](#query-without-params)
-    * [returns a post array](#returns-a-post-array)
-    * [returns posts](#returns-posts)
+  * [querying posts](#querying-posts)
+    * [without params](#without-params)
+      * [returns a post array](#returns-a-post-array)
+      * [returns posts](#returns-posts)
+  * [with `limit` argument](#with-limit-argument)
 
 <!-- /TOC -->
 
@@ -51,9 +53,11 @@ type Query {
 }
 ```
 
-## query without params
+## querying posts
 
-### returns a post array
+### without params
+
+#### returns a post array
 
 In order to get your GraphQL API to return something based on your definition, you need to define _resolvers_ for your queries.
 
@@ -74,7 +78,7 @@ const resolvers = {
 
 We want this to do external requests later on (or maybe in another app it'd be a DB query), so and `async` function is preferred.
 
-### returns posts
+#### returns posts
 
 The REST-API returns an endpoint, `/posts`, where you can fetch all post resources.
 
@@ -87,4 +91,33 @@ await request({
 });
 
 return posts;
+```
+
+## with `limit` argument
+
+You probably want to limit the results & you don't want to do that on the GraphQL-side, it's nicer to just pass on the limit to the underlying service and make use of it's pagination.
+
+In order to do this you need to build up a query string.
+
+The endpoint you want to query is the following: http://localhost:3101/posts?_limit=2
+
+First, you need to add to your GraphQL-schema that you want to accept arguemnt `limit` and which type it is.
+
+```graphql
+posts(limit: Int): [Post!]!
+```
+
+Secondly, you want to use this argument to build up a query in the resolver.
+
+```js
+const query = {};
+if (args, 'limit') {
+  query._limit = args.limit;
+}
+
+const search = `?${querystring.stringify(query)}`;
+const posts = await request({
+  uri: `${REST_SERVICE_URL}/posts${search}`,
+  json: true,
+});
 ```
