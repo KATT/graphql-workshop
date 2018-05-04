@@ -5,7 +5,7 @@
 * [GraphQL workshop](#graphql-workshop)
   * [Introduction](#introduction)
   * [Motivation: REST and some headaches over time](#motivation-rest-and-some-headaches-over-time)
-    * [Data requirement needs changes over time](#data-requirement-needs-changes-over-time)
+    * [Data requirements changes over time](#data-requirements-changes-over-time)
     * [GraphQL is a 🌟 here](#graphql-is-a-🌟-here)
   * [Getting started](#getting-started)
     * [Folder Structure](#folder-structure)
@@ -72,7 +72,7 @@ And when querying http://localhost:3101/users we get this sort of objects:
 
 Let's say this was the agreement of exactly what information was needed when the page was designed. We wanted to be able to display a list of posts, and together with the post we wanted to display the user's `handle`. Great! This works fine.
 
-### Data requirement needs changes over time
+### Data requirements changes over time
 
 However, with time we revise the design and decide we also want to display users' `firstName` & `lastName` in the list instead of the handle.
 
