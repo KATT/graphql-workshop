@@ -178,13 +178,13 @@ npm run dev
 |-- graphql: graphql service (this is the main working directory)
 |  |-- src
 |  |  |-- index.js: entry point of app, starts server
-|  |  |-- server.js: graphql server. where we'll be writing all our logic
+|  |  |-- server.js: graphql server. ❗ where we'll be writing all our logic
 |  |  `-- schema.graphql: graphql definition of our API
 |  |-- test
 |  |  |-- query: tests for grapql queries
 |  |  |   |-- hello.spec.js: tests for `query.hello`
 |  |  |   |-- posts.spec.js: tests for `query.posts`
-|  |  |   `-- posts.spec.md: ℹ️ help docs on how to make the tests pass
+|  |  |   `-- posts.spec.md: ❗ help docs on how to make the tests pass
 |-- rest: mock REST service running with resources `posts`, `users`, &, `comments`
 |  `-- [..]
 |  | -- [..]
