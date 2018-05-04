@@ -77,3 +77,14 @@ We want this to do external requests later on (or maybe in another app it'd be a
 ### returns posts
 
 The REST-API returns an endpoint, `/posts`, where you can fetch all post resources.
+
+Here's a tip:
+
+```js
+await request({
+  uri: `${REST_SERVICE_URL}/posts`,
+  json: true,
+});
+
+return posts;
+```
