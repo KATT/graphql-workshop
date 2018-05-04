@@ -1,10 +1,12 @@
 const { GraphQLServer } = require('graphql-yoga');
+const DataLoader = require('dataloader');
+const request = require('request-promise-native');
 
 const { REST_SERVICE_URL = 'http://localhost:3101' } = process.env;
 
 const resolvers = {
   Query: {
-    hello: (_, { name }) => `Hello ${name || 'World'}`,
+    hello: (source, args) => `Hello ${args.name || 'World'}`,
   },
 };
 

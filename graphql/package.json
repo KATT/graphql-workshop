@@ -6,21 +6,18 @@
   "private": true,
   "scripts": {
     "start": "node src/index",
-    "watch:start": "nodemon src/index",
-    "watch:test": "npm t -- --watch",
-    "dev": "run-p watch:*",
-    "test": "jest"
+    "dev": "nodemon -e js,graphql src/index"
   },
   "author": "KATT",
   "license": "WTFPL",
   "devDependencies": {
     "graphql-yoga": "^1.12.1",
-    "jest": "^22.4.3",
     "nock": "^9.2.5",
     "nodemon": "^1.17.3",
     "npm-run-all": "^4.1.2"
   },
   "dependencies": {
+    "dataloader": "^1.4.0",
     "lodash": "^4.17.10"
   }
 }

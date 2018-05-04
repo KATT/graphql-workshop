@@ -5,6 +5,8 @@ const { promisify } = require('util');
 
 const server = require('../src/server');
 
+const { REST_SERVICE_URL = 'http://localhost:3101' } = process.env;
+
 let http;
 let uri;
 global.testUtils = {
@@ -12,12 +14,14 @@ global.testUtils = {
   _,
   request,
   startServer: async () => {
+    nock.cleanAll();
     http = await server.start({ port: 0 });
 
     const { port } = http.address();
     uri = `http://localhost:${port}`;
   },
   stopServer: async () => {
+    nock.cleanAll();
     if (http) {
       await promisify(http.close).call(http);
       http = null;
@@ -25,15 +29,20 @@ global.testUtils = {
   },
   uri: () => uri,
   gqlRequest: async ({ query, variables }) => {
-    const opts = {
+    const res = await request({
       uri,
       method: 'POST',
       json: true,
       body: { query, variables },
-    };
-    const body = await request(opts);
+      resolveWithFullResponse: true,
+    });
 
-    return body;
+    return res;
+  },
+  mock: (path, data) => {
+    nock(REST_SERVICE_URL)
+      .get(path)
+      .reply(200, data);
   },
 };
 

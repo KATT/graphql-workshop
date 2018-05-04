@@ -3,6 +3,7 @@
     "EditorConfig.editorconfig",
     "esbenp.prettier-vscode",
     "dbaeumer.vscode-eslint",
-    "AlanWalk.markdown-toc"
+    "AlanWalk.markdown-toc",
+    "Orta.vscode-jest"
   ]
 }

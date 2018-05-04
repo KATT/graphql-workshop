@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "postinstall": "cd graphql && npm i && cd ../rest && npm i",
     "dev:rest": "cd rest && npm run dev",
     "dev:graphql": "cd graphql && npm run dev",
@@ -22,6 +22,7 @@
   },
   "homepage": "https://github.com/KATT/graphql-workshop#readme",
   "devDependencies": {
+    "jest": "^22.4.3",
     "npm-run-all": "^4.1.2"
   }
 }

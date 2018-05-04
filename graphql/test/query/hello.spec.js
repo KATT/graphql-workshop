@@ -1,4 +1,5 @@
 const { startServer, stopServer, gqlRequest, uri } = global.testUtils;
+
 describe('query.hello', () => {
   beforeEach(startServer);
   afterEach(stopServer);
@@ -9,8 +10,9 @@ describe('query.hello', () => {
           hello(name: "KATT")
       }
     `;
-    const body = await gqlRequest({ query });
+    const { body } = await gqlRequest({ query });
 
+    expect(body).not.toHaveProperty('errors');
     expect(body).toEqual({
       data: {
         hello: 'Hello KATT',
