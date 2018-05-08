@@ -68,6 +68,7 @@ describe('query.posts', () => {
       ', ',
     )}`, () => {
       expect(_.map(types, 'name')).toContain('Post');
+      const { fields } = _.find(types, { name: 'Post' });
       const fieldNames = _.map(fields, 'name');
       for (const name of expectedFields) {
         expect(fieldNames).toContain(name);
@@ -75,7 +76,7 @@ describe('query.posts', () => {
     });
 
     it.skip('Query.posts should be defined', () => {
-      const fields = _.find(types, { name: 'Query' }).fields;
+      const { fields } = _.find(types, { name: 'Query' });
       const fieldNames = _.map(fields, 'name');
 
       expect(fieldNames).toContain('posts');
