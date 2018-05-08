@@ -13,7 +13,20 @@
     * [URLs](#urls)
     * [Test query](#test-query)
     * [Run test watcher](#run-test-watcher)
-    * [Implementing your posts resolver](#implementing-your-posts-resolver)
+* [Implementing your posts resolver - `posts.spec.js`](#implementing-your-posts-resolver---postsspecjs)
+  * [definition](#definition)
+    * [should exist on schema](#should-exist-on-schema)
+    * [should contain fields _[...]_](#should-contain-fields-__)
+    * [Query.posts should be defined](#queryposts-should-be-defined)
+  * [querying posts](#querying-posts)
+    * [without params](#without-params)
+      * [returns a post array](#returns-a-post-array)
+      * [returns posts](#returns-posts)
+    * [with `limit` argument](#with-limit-argument)
+    * [when getting related users](#when-getting-related-users)
+      * [can return the users' handle](#can-return-the-users-handle)
+      * [can return the users' firstName](#can-return-the-users-firstname)
+      * [can batch fetch users](#can-batch-fetch-users)
 
 <!-- /TOC -->
 
@@ -183,8 +196,7 @@ npm run dev
 |  |-- test
 |  |  |-- query: tests for grapql queries
 |  |  |   |-- hello.spec.js: tests for `query.hello`
-|  |  |   |-- posts.spec.js: tests for `query.posts`
-|  |  |   `-- posts.spec.md: ❗ help docs on how to make the tests pass
+|  |  |   `-- posts.spec.js: tests for `query.posts` ❗
 |-- rest: mock REST service running with resources `posts`, `users`, &, `comments`
 |  `-- [..]
 |  | -- [..]
@@ -196,8 +208,8 @@ The whole workshop is in TDD-style. We have tests written in [`graphql/test/quer
 
 ### URLs
 
-http://localhost:3100 - your GraphQL-server
-http://localhost:3101 - your REST-server
+* http://localhost:3100 - your GraphQL-server
+* http://localhost:3101 - your REST-server
 
 ### Test query
 
@@ -228,10 +240,148 @@ It's a simple POST request containg the `query` string in a JSON body. All reque
 
 To start the test watcher run: `npm t -- --watch`
 
-### Implementing your posts resolver
+# Implementing your posts resolver - `posts.spec.js`
 
 Now, head over to [`graphql/test/query/posts.spec.js`](graphql/test/query/posts.spec.js) and remove `.skip()` from the first integration test.
 
-And from now on follow the instructions in [`posts.spec.md`](graphql/test/query/posts.spec.md) to work through getting a fully functional gateway in place.
-
 🌟 Bonus: If you're running vscode and installed the recommended jest plugin you can get your test results in the editor.
+
+## definition
+
+What is a post?
+
+```graphql
+type Post {
+  id: String!
+  title: String!
+  # [... TBC]
+}
+```
+
+* `Post` is a _GraphQL Object Type_, meaning it's a type with some fields. Most of the types in your schema will be object types.
+* `id` and `title` are fields on the Character type. That means that `id` and `title` are the only fields that can appear in any part of a GraphQL query that operates on the `Post` type.
+* `String` is one of the built-in _scalar_ types (together with `Float`/`Int`/`Boolean`) - these are types that resolve to a single scalar object, and can't have sub-selections in the query. Think of it as a primitive type for now.
+* `String!` means that the field is non-nullable, meaning that the GraphQL service promises to always give you a value when you query this field. In the type language, we'll represent those with an exclamation mark.
+
+### should exist on schema
+
+Take the post definition above and add it to `schema.graphql`
+
+### should contain fields _[...]_
+
+Look at a post object in http://localhost:3101/posts and add the remaining fields. You can skip `user` for now, we will return to that later.
+
+### Query.posts should be defined
+
+In order to query your API for posts, you need to define a query for posts.
+
+We do that by defining the following on your root `type Query`
+
+```graphql
+type Query {
+  # [...other resolvers]
+  posts: [Post!]!
+}
+```
+
+## querying posts
+
+### without params
+
+#### returns a post array
+
+In order to get your GraphQL API to return something based on your definition, you need to define _resolvers_ for your queries.
+
+For starters, in order to fulfill this test, all you need to have is a resolver that returns an array.
+
+In `server.js` there's an object of resolvers - on `Query`, add a `posts` field.
+
+```js
+const resolvers = {
+  Query: {
+    // [..]
+    posts: async (source, args) => {
+      return [];
+    },
+  },
+};
+```
+
+We want this to do external requests later on (or maybe in another app it'd be a DB query), so and `async` function is preferred.
+
+#### returns posts
+
+The REST-API returns an endpoint, `/posts`, where you can fetch all post resources.
+
+Here's a tip:
+
+```js
+await request({
+  uri: `${REST_SERVICE_URL}/posts`,
+  json: true,
+});
+
+return posts;
+```
+
+### with `limit` argument
+
+You probably want to limit the results & you don't want to do that on the GraphQL-side, it's nicer to just pass on the limit to the underlying service and make use of it's pagination.
+
+In order to do this you need to build up a query string.
+
+The endpoint you want to query is the following: http://localhost:3101/posts?_limit=2
+
+First, you need to add to your GraphQL-schema that you want to accept arguemnt `limit` and which type it is.
+
+```graphql
+posts(limit: Int): [Post!]!
+```
+
+Secondly, you want to use this argument to build up a query in the resolver.
+
+```js
+const query = {};
+if (args, 'limit') {
+  query._limit = args.limit;
+}
+
+const search = `?${querystring.stringify(query)}`;
+const posts = await request({
+  uri: `${REST_SERVICE_URL}/posts${search}`,
+  json: true,
+});
+```
+
+### when getting related users
+
+#### can return the users' handle
+
+* Define a `User` type
+* Define the relation between `Post` and `User` (`User!`)
+
+#### can return the users' firstName
+
+Since the `/posts` endpoint don't contain the users' `firstName`s, you need to resolve the related `/users?id=x` when you resolve a post.
+
+In your resolvers, you need to add a `Post` resolver, like this
+
+```js
+Post: {
+  user: async (post, args, ctx) => {
+    // ..
+```
+
+The first argument when resolving any field on a type will be the source object, in this case, your post. You can use this to fetch the user on `/users/id/{post.user.id}`.
+
+#### can batch fetch users
+
+It is quite inefficent to do one user request per post & since our REST-API allows us to batch fetch users based on their ids, we'd like to leverage that.
+
+We are able to fetch several users at once by calling [`/users?id=user1&id=user2&..`](http://localhost:3101/users/?id=user1&id=user2).
+
+There's a library called [DataLoader](https://github.com/facebook/dataloader) which has a neat approach to this sort of problem. Basically, you create a dataloader where you define how to batch fetch objects based on a list of identifiers and then you use said data loader to load all of your objects. If the same id has already been fetched, it's simply returned or otherwise it will be fetch in the next batch request.
+
+When we define our `GraphQLServer` we can define a `context` object. The context we create is unique for each request to our API, hence we can create a cached dataloader here that will exist only for this request.
+
+The third argument in our resolvers are always said context object, and we can use this to call our loader (`ctx.userById.load(post.user.id)`).

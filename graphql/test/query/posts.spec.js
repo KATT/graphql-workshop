@@ -146,11 +146,24 @@ describe('query.posts', () => {
 
     describe('when getting related users', () => {
       let postsResponse;
+      let usersBatchResponse;
+      let users0Response;
+      let users1Response;
       beforeEach(async () => {
         postsResponse = jest.fn(() => [200, postsFixture]);
+        usersBatchResponse = jest.fn(() => [
+          200,
+          [usersFixture[0], usersFixture[1]],
+        ]);
+        users0Response = jest.fn(() => [200, usersFixture[0]]);
+        users1Response = jest.fn(() => [200, usersFixture[1]]);
+
         mock('/posts', postsResponse);
-        mock('/users', usersFixture[0], ({ q }) => q.id === 'user0');
-        mock('/users', usersFixture[1], ({ q }) => q.id === 'user1');
+        mock('/users/user0', users0Response);
+        mock('/users/user1', users1Response);
+        mock('/users', usersBatchResponse, ({ q }) => {
+          return _.isEqual(q.id, ['user0', 'user1']);
+        });
       });
 
       it.skip("can return the users' handle", async () => {
@@ -188,6 +201,33 @@ describe('query.posts', () => {
         const { body } = await gqlRequest({ query });
 
         expect(postsResponse).toHaveBeenCalledTimes(1);
+        expect(body).not.toHaveProperty('errors');
+
+        expect(body.data.posts.length).toBe(2);
+        expect(body.data.posts[0].user.firstName).toBe('user0-firstName');
+        expect(body.data.posts[1].user.firstName).toBe('user1-firstName');
+      });
+      it.skip("can batch fetch users'", async () => {
+        const query = `
+          query {
+              posts { 
+                id
+                user {
+                  firstName
+                }
+                userAgain: user {
+                  lastName
+                }
+              }
+          }
+        `;
+        const { body } = await gqlRequest({ query });
+
+        expect(postsResponse).toHaveBeenCalledTimes(1);
+        expect(usersBatchResponse).toHaveBeenCalledTimes(1);
+        expect(users0Response).toHaveBeenCalledTimes(0);
+        expect(users1Response).toHaveBeenCalledTimes(0);
+
         expect(body).not.toHaveProperty('errors');
 
         expect(body.data.posts.length).toBe(2);
