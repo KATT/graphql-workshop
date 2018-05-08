@@ -27,6 +27,8 @@
       * [can return the users' handle](#can-return-the-users-handle)
       * [can return the users' firstName](#can-return-the-users-firstname)
       * [can batch fetch users](#can-batch-fetch-users)
+* [What's next?](#whats-next)
+  * [Ideas for challenges](#ideas-for-challenges)
 
 <!-- /TOC -->
 
@@ -210,6 +212,7 @@ The whole workshop is in TDD-style. We have tests written in [`graphql/test/quer
 
 * http://localhost:3100 - your GraphQL-server
 * http://localhost:3101 - your REST-server
+* http://localhost:3200 - your React app
 
 ### Test query
 
@@ -385,3 +388,15 @@ There's a library called [DataLoader](https://github.com/facebook/dataloader) wh
 When we define our `GraphQLServer` we can define a `context` object. The context we create is unique for each request to our API, hence we can create a cached dataloader here that will exist only for this request.
 
 The third argument in our resolvers are always said context object, and we can use this to call our loader (`ctx.userById.load(post.user.id)`).
+
+# What's next?
+
+Once you've done the above you should be equipped with knowledge to define your GraphQL-schema and write your own resolvers.
+
+## Ideas for challenges
+
+* Make it into an actual blog! Try to add the queries so that [`web/`](web) works (server-rendered React app using Next.js)
+* Add limit and offset/skip or cursor-based navigation.
+* `Comment` <-> `Post` relationship + resolvers
+* Ability to add posts / comments (Mutations)
+* Try deploying your services using [now.sh](http://now.sh/)

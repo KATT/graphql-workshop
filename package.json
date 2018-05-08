@@ -6,9 +6,13 @@
   "private": true,
   "scripts": {
     "test": "jest",
-    "postinstall": "cd graphql && npm i && cd ../rest && npm i",
+    "install:graphql": "cd graphql && npm i",
+    "install:rest": "cd rest && npm i",
+    "install:web": "cd web && npm i",
+    "postinstall": "run-p install:*",
     "dev:rest": "cd rest && npm run dev",
     "dev:graphql": "cd graphql && npm run dev",
+    "dev:web": "cd web && npm run dev",
     "dev": "run-p dev:*"
   },
   "repository": {
