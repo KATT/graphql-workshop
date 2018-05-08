@@ -262,7 +262,7 @@ type Post {
 ```
 
 * `Post` is a _GraphQL Object Type_, meaning it's a type with some fields. Most of the types in your schema will be object types.
-* `id` and `title` are fields on the Character type. That means that `id` and `title` are the only fields that can appear in any part of a GraphQL query that operates on the `Post` type.
+* `id` and `title` are fields on the `Post` type. That means that `id` and `title` are the only fields that can appear in any part of a GraphQL query that operates on the `Post` type.
 * `String` is one of the built-in _scalar_ types (together with `Float`/`Int`/`Boolean`) - these are types that resolve to a single scalar object, and can't have sub-selections in the query. Think of it as a primitive type for now.
 * `String!` means that the field is non-nullable, meaning that the GraphQL service promises to always give you a value when you query this field. In the type language, we'll represent those with an exclamation mark.
 
