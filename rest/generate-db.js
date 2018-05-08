@@ -30,7 +30,7 @@ const posts = users.reduce((res, user) => {
     return {
       id: _.uniqueId('post'),
       title: faker.lorem.sentence(),
-      slug: faker.helpers.slugify(title),
+      slug: faker.helpers.slugify(title).toLowerCase(),
       text: faker.lorem.paragraphs(_.random(2, 15)),
       user: {
         id: user.id,
