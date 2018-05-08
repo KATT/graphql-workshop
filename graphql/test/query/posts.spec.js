@@ -67,7 +67,7 @@ describe('query.posts', () => {
     it.skip(`type Post should contain fields ${expectedFields.join(
       ', ',
     )}`, () => {
-      const fields = _.find(types, { name: 'Post' }).fields;
+      expect(_.map(types, 'name')).toContain('Post');
       const fieldNames = _.map(fields, 'name');
       for (const name of expectedFields) {
         expect(fieldNames).toContain(name);
