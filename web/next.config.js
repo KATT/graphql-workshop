@@ -2,13 +2,11 @@ const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 
 module.exports = {
   webpack(config, { isServer, dev }) {
-    // remove friendlyerrorsplugin
-    config.plugins = config.plugins.filter(
-      plugin => plugin.constructor.name !== 'FriendlyErrorsWebpackPlugin',
-    );
-
-    // add it back in with custom options
     if (dev && !isServer) {
+      // skip clear console
+      config.plugins = config.plugins.filter(
+        plugin => plugin.constructor.name !== 'FriendlyErrorsWebpackPlugin',
+      );
       config.plugins.push(
         new FriendlyErrorsWebpackPlugin({ clearConsole: false }),
       );
