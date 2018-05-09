@@ -422,7 +422,7 @@ Then,
 
 ```sh
 cd graphql
-now -e REST_SERVICE_URL='https://...something.now.sh'
+now -e REST_SERVICE_URL=https://...something.now.sh
 ```
 
 #### … your React-app
@@ -431,6 +431,6 @@ Get the URL from your GraphQL-service.
 
 ```sh
 cd graphql
-now -e GRAPHQL_URL='https://...something.now.sh'
+now -e GRAPHQL_URL=https://...something.now.sh
 ``
 ```
