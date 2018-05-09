@@ -10,13 +10,15 @@ if (!process.browser) {
   global.fetch = fetch;
 }
 
+const { GRAPHQL_URL = 'http://localhost:3100' } = process.env;
+
 function create(initialState) {
   return new ApolloClient({
     connectToDevTools: process.browser,
     ssrMode: !process.browser, // Disables forceFetch on the server (so queries are only run once)
     link: new HttpLink({
       // TODO - replace with env var
-      uri: 'http://localhost:3100', // Server URL (must be absolute)
+      uri: GRAPHQL_URL, // Server URL (must be absolute)
       credentials: 'same-origin', // Additional fetch() options like `credentials` or `headers`
     }),
     cache: new InMemoryCache().restore(initialState || {}),
