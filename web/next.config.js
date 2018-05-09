@@ -1,4 +1,5 @@
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
   webpack(config, { isServer, dev }) {
@@ -11,6 +12,13 @@ module.exports = {
         new FriendlyErrorsWebpackPlugin({ clearConsole: false }),
       );
     }
+
+    config.plugins.push(
+      new webpack.DefinePlugin({
+        'process.env.GRAPHQL_URL': JSON.stringify(process.env.GRAPHQL_URL),
+      }),
+    );
+
     return config;
   },
 };
