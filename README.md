@@ -434,7 +434,7 @@ now -e REST_SERVICE_URL=https://...something.now.sh
 Get the URL from your GraphQL-service.
 
 ```sh
-cd graphql
+cd web
 now -e GRAPHQL_URL=https://...something.now.sh
 ``
 ```
