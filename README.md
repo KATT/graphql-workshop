@@ -345,7 +345,7 @@ Secondly, you want to use this argument to build up a query in the resolver.
 
 ```js
 const query = {};
-if (args, 'limit') {
+if (args.limit) {
   query._limit = args.limit;
 }
 
@@ -375,7 +375,7 @@ Post: {
     // ..
 ```
 
-The first argument when resolving any field on a type will be the source object, in this case, your post. You can use this to fetch the user on `/users/id/{post.user.id}`.
+The first argument when resolving any field on a type will be the source object, in this case, your post. You can use this to fetch the user on `/users/${post.user.id}`.
 
 #### can batch fetch users
 
