@@ -64,8 +64,8 @@ function PostList({ data: { loading, error, posts }, loadMorePosts }) {
 }
 
 export const posts = gql`
-  query posts($limit: Int!, $skip: Int!) {
-    posts(limit: $limit, skip: $skip) {
+  query posts($limit: Int!) {
+    posts(limit: $limit) {
       id
       title
       slug
@@ -73,7 +73,6 @@ export const posts = gql`
   }
 `;
 export const postsQueryVars = {
-  skip: 0,
   limit: POSTS_PER_PAGE,
 };
 
