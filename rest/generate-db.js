@@ -26,10 +26,10 @@ const users = _.times(nUsers, () => {
 
 const posts = users.reduce((res, user) => {
   const userPosts = _.times(_.random(0, maxPostsPerUser), () => {
-    const title = faker.lorem.sentence();
+    const title = _.trim(faker.lorem.sentence(), '.');
     return {
       id: _.uniqueId('post'),
-      title: faker.lorem.sentence(),
+      title,
       slug: faker.helpers.slugify(title).toLowerCase(),
       text: faker.lorem.paragraphs(_.random(2, 15)),
       user: {
