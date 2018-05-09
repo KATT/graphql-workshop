@@ -29,6 +29,10 @@
       * [can batch fetch users](#can-batch-fetch-users)
 * [What's next?](#whats-next)
   * [Ideas for challenges](#ideas-for-challenges)
+    * [Deploy using now](#deploy-using-now)
+      * [… your REST-service](#-your-rest-service)
+      * [… your GraphQL-service](#-your-graphql-service)
+      * [… your React-app](#-your-react-app)
 
 <!-- /TOC -->
 
@@ -400,3 +404,33 @@ Once you've done the above you should be equipped with knowledge to define your 
 * `Comment` <-> `Post` relationship + resolvers
 * Ability to add posts / comments (Mutations)
 * Try deploying your services using [now.sh](http://now.sh/)
+
+### Deploy using now
+
+#### … your REST-service
+
+```sh
+cd rest
+now
+```
+
+#### … your GraphQL-service
+
+First, get the URL of your REST-service
+
+Then,
+
+```sh
+cd graphql
+now -e REST_SERVICE_URL='https://...something.now.sh'
+```
+
+#### … your React-app
+
+Get the URL from your GraphQL-service.
+
+```sh
+cd graphql
+now -e GRAPHQL_URL='https://...something.now.sh'
+``
+```
