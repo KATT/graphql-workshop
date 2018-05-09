@@ -121,7 +121,7 @@ Assume you have implemented a GraphQL-server with this schema:
 
 ```graphql
 type Query {
-  posts(limit: Int skip: Int) [Post!]!
+  posts(limit: Int page: Int) [Post!]!
 }
 
 type Post {
@@ -400,7 +400,7 @@ Once you've done the above you should be equipped with knowledge to define your 
 ## Ideas for challenges
 
 * Make it into an actual blog! Try to add the queries so that [`web/`](web) works (server-rendered React app using Next.js)
-* Add limit and offset/skip or cursor-based navigation.
+* Add `limit` and `page` for navigation.
 * `Comment` <-> `Post` relationship + resolvers
 * Ability to add posts / comments (Mutations)
 * Try deploying your services using [now.sh](http://now.sh/)
