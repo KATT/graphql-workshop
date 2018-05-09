@@ -29,10 +29,10 @@
       * [can batch fetch users](#can-batch-fetch-users)
 * [What's next?](#whats-next)
   * [Ideas for challenges](#ideas-for-challenges)
-    * [Deploy using now](#deploy-using-now)
-      * [… your REST-service](#-your-rest-service)
-      * [… your GraphQL-service](#-your-graphql-service)
-      * [… your React-app](#-your-react-app)
+  * [Deploy using now.sh](#deploy-using-nowsh)
+    * [… your REST-service](#-your-rest-service)
+    * [… your GraphQL-service](#-your-graphql-service)
+    * [… your React-app](#-your-react-app)
 
 <!-- /TOC -->
 
@@ -403,18 +403,22 @@ Once you've done the above you should be equipped with knowledge to define your 
 * Add `limit` and `page` for navigation.
 * `Comment` <-> `Post` relationship + resolvers
 * Ability to add posts / comments (Mutations)
-* Try deploying your services using [now.sh](http://now.sh/)
+* Try deploying your services using [now.sh](https://now.sh/)
 
-### Deploy using now
+## Deploy using now.sh
 
-#### … your REST-service
+```
+npm i now -g
+```
+
+### … your REST-service
 
 ```sh
 cd rest
 now
 ```
 
-#### … your GraphQL-service
+### … your GraphQL-service
 
 First, get the URL of your REST-service
 
@@ -425,7 +429,7 @@ cd graphql
 now -e REST_SERVICE_URL=https://...something.now.sh
 ```
 
-#### … your React-app
+### … your React-app
 
 Get the URL from your GraphQL-service.
 
