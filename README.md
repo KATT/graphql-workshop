@@ -369,7 +369,7 @@ const posts = await request({
 
 #### can return the users' firstName
 
-Since the `/posts` endpoint don't contain the users' `firstName`s, you need to resolve the related `/users?id=x` when you resolve a post.
+Since the `/posts` endpoint don't contain the users' `firstName`s, you need to resolve the related `/users/:userId` when you resolve a post.
 
 In your resolvers, you need to add a `Post` resolver, like this
 
