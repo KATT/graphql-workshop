@@ -121,7 +121,7 @@ Assume you have implemented a GraphQL-server with this schema:
 
 ```graphql
 type Query {
-  posts(limit: Int page: Int) [Post!]!
+  posts(limit: Int page: Int): [Post!]!
 }
 
 type Post {
