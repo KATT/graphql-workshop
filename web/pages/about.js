@@ -20,21 +20,25 @@ export default () => (
         inside a{' '}
         <a href="https://facebook.github.io/react/docs/higher-order-components.html">
           higher-order component (HOC)
-        </a>. Using the HOC pattern we're able to pass down a central store of
-        query result data created by Apollo into our React component hierarchy
-        defined inside each page of our Next application.
+        </a>
+        . Using the HOC pattern we're able to pass down a central store of query
+        result data created by Apollo into our React component hierarchy defined
+        inside each page of our Next application.
       </p>
       <p>
         On initial page load, while on the server and inside getInitialProps, we
         invoke the Apollo method,{' '}
         <a href="http://dev.apollodata.com/react/server-side-rendering.html#getDataFromTree">
           getDataFromTree
-        </a>. This method returns a promise; at the point in which the promise
+        </a>
+        . This method returns a promise; at the point in which the promise
         resolves, our Apollo Client store is completely initialized.
       </p>
       <p>
-        This example relies on <a href="http://graph.cool">graph.cool</a> for
-        its GraphQL backend.
+        This site was created based of this GraphQL workshop:{' '}
+        <a href="https://github.com/KATT/graphql-workshop">
+          github.com/KATT/graphql-workshop
+        </a>
       </p>
     </article>
   </App>
