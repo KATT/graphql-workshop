@@ -323,7 +323,7 @@ The REST-API returns an endpoint, `/posts`, where you can fetch all post resourc
 Here's a tip:
 
 ```js
-await request({
+const posts = await request({
   uri: `${REST_SERVICE_URL}/posts`,
   json: true,
 });
