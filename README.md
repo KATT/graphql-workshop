@@ -1,40 +1,6 @@
 # GraphQL workshop
 
-<!-- TOC -->
-
-* [GraphQL workshop](#graphql-workshop)
-  * [Introduction](#introduction)
-  * [Motivation: REST and some headaches over time](#motivation-rest-and-some-headaches-over-time)
-    * [Data requirements changes over time](#data-requirements-changes-over-time)
-    * [GraphQL is a 🌟 here](#graphql-is-a-🌟-here)
-  * [Getting started](#getting-started)
-    * [Folder Structure](#folder-structure)
-    * [How to work](#how-to-work)
-    * [URLs](#urls)
-    * [Test query](#test-query)
-    * [Run test watcher](#run-test-watcher)
-* [Implementing your posts resolver - `posts.spec.js`](#implementing-your-posts-resolver---postsspecjs)
-  * [definition](#definition)
-    * [should exist on schema](#should-exist-on-schema)
-    * [should contain fields _[...]_](#should-contain-fields-__)
-    * [Query.posts should be defined](#queryposts-should-be-defined)
-  * [querying posts](#querying-posts)
-    * [without params](#without-params)
-      * [returns a post array](#returns-a-post-array)
-      * [returns posts](#returns-posts)
-    * [with `limit` argument](#with-limit-argument)
-    * [when getting related users](#when-getting-related-users)
-      * [can return the users' handle](#can-return-the-users-handle)
-      * [can return the users' firstName](#can-return-the-users-firstname)
-      * [can batch fetch users](#can-batch-fetch-users)
-* [What's next?](#whats-next)
-  * [Ideas for challenges](#ideas-for-challenges)
-  * [Deploy using now.sh](#deploy-using-nowsh)
-    * [… your REST-service](#-your-rest-service)
-    * [… your GraphQL-service](#-your-graphql-service)
-    * [… your React-app](#-your-react-app)
-
-<!-- /TOC -->
+<!-- TOC -->autoauto- [GraphQL workshop](#graphql-workshop)auto    - [Introduction](#introduction)auto    - [Motivation: REST and some headaches over time](#motivation-rest-and-some-headaches-over-time)auto        - [Data requirements changes over time](#data-requirements-changes-over-time)auto        - [GraphQL is a 🌟 here](#graphql-is-a-🌟-here)auto    - [Getting started](#getting-started)auto        - [Folder Structure](#folder-structure)auto        - [How to work](#how-to-work)auto        - [URLs](#urls)auto        - [Test query](#test-query)auto        - [Run test watcher](#run-test-watcher)auto- [Implementing your posts resolver - `posts.spec.js`](#implementing-your-posts-resolver---postsspecjs)auto    - [definition](#definition)auto        - [should exist on schema](#should-exist-on-schema)auto        - [should contain fields _[...]_](#should-contain-fields-__)auto        - [Query.posts should be defined](#queryposts-should-be-defined)auto    - [querying posts](#querying-posts)auto        - [without params](#without-params)auto            - [returns a post array](#returns-a-post-array)auto            - [returns posts](#returns-posts)auto        - [with `limit` argument](#with-limit-argument)auto        - [when getting related users](#when-getting-related-users)auto            - [can return the users' handle](#can-return-the-users-handle)auto            - [can return the users' firstName](#can-return-the-users-firstname)auto            - [can batch fetch users](#can-batch-fetch-users)auto- [What's next?](#whats-next)auto    - [Ideas for challenges](#ideas-for-challenges)auto    - [Deploy using now.sh](#deploy-using-nowsh)auto        - [… your REST-service](#-your-rest-service)auto        - [… your GraphQL-service](#-your-graphql-service)auto        - [… your React-app](#-your-react-app)autoauto<!-- /TOC -->
 
 ## Introduction
 
@@ -44,11 +10,11 @@ We assume that all participants have a basic idea of GraphQL is and have seen a 
 
 In this workshop we will be covering:
 
-* Creating a Hello World GraphQL-app
-* Proxying requests from existing REST-service
-* Tying different data types in your REST-service together in a graph
-* Optional: Batch fetching of resources
-* Optional: Creating a little server-rendered React app that uses your service
+- Creating a Hello World GraphQL-app
+- Proxying requests from existing REST-service
+- Tying different data types in your REST-service together in a graph
+- Optional: Batch fetching of resources
+- Optional: Creating a little server-rendered React app that uses your service
 
 ## Motivation: REST and some headaches over time
 
@@ -97,21 +63,21 @@ However, with time we revise the design and decide we also want to display users
 
 We have a few options:
 
-* Add `firstName` and `lastName` to `/posts`
-  * 😷 Increases payload for **all** consumers. Maybe you have a mobile app that doesn't need this, why should those users be punished with a slow experience?
-  * 😷 Requires additional work on the backend - the data is already there!
-* Build a `/v2/posts`-endpoint or specific endpoint for this client
-  * 😷 Maintain new and old endpoints
-  * 😷 Doesn't solve same problem in the future
-* Add something like dynamic `?fields=..` param to specify which fields you want to return
-  * 😷 Not part of REST-spec
-  * 😷 Quite difficult to structure and write good resolvers
-  * 😷 Hard to test properly and quite messy to dynamically build this query string
-  * 😷 Does not work nicely when there's complex structures like arrays or nested objects
-* Request `/user?=id=..` for each user in posts
-  * 😷 Extra roundtrips to server. Have to fetch requests posts, and then each user. Inefficent.
-  * 😷 Over-fetching: you'll get more data than you actually need on the users. Slow.
-  * 😷 A lot of glue code on the clients to put the objects together
+- Add `firstName` and `lastName` to `/posts`
+  - 😷 Increases payload for **all** consumers. Maybe you have a mobile app that doesn't need this, why should those users be punished with a slow experience?
+  - 😷 Requires additional work on the backend - the data is already there!
+- Build a `/v2/posts`-endpoint or specific endpoint for this client
+  - 😷 Maintain new and old endpoints
+  - 😷 Doesn't solve same problem in the future
+- Add something like dynamic `?fields=..` param to specify which fields you want to return
+  - 😷 Not part of REST-spec
+  - 😷 Quite difficult to structure and write good resolvers
+  - 😷 Hard to test properly and quite messy to dynamically build this query string
+  - 😷 Does not work nicely when there's complex structures like arrays or nested objects
+- Request `/user?=id=..` for each user in posts
+  - 😷 Extra roundtrips to server. Have to fetch requests posts, and then each user. Inefficent.
+  - 😷 Over-fetching: you'll get more data than you actually need on the users. Slow.
+  - 😷 A lot of glue code on the clients to put the objects together
 
 ### GraphQL is a 🌟 here
 
@@ -121,7 +87,7 @@ Assume you have implemented a GraphQL-server with this schema:
 
 ```graphql
 type Query {
-  posts(limit: Int page: Int): [Post!]!
+  posts(limit: Int, page: Int): [Post!]!
 }
 
 type Post {
@@ -214,9 +180,9 @@ The whole workshop is in TDD-style. We have tests written in [`graphql/test/quer
 
 ### URLs
 
-* http://localhost:3100 - your GraphQL-server
-* http://localhost:3101 - your REST-server
-* http://localhost:3200 - your React app
+- http://localhost:3100 - your GraphQL-server
+- http://localhost:3101 - your REST-server
+- http://localhost:3200 - your React app
 
 ### Test query
 
@@ -265,10 +231,10 @@ type Post {
 }
 ```
 
-* `Post` is a _GraphQL Object Type_, meaning it's a type with some fields. Most of the types in your schema will be object types.
-* `id` and `title` are fields on the `Post` type. That means that `id` and `title` are the only fields that can appear in any part of a GraphQL query that operates on the `Post` type.
-* `String` is one of the built-in _scalar_ types (together with `Float`/`Int`/`Boolean`) - these are types that resolve to a single scalar object, and can't have sub-selections in the query. Think of it as a primitive type for now.
-* `String!` means that the field is non-nullable, meaning that the GraphQL service promises to always give you a value when you query this field. In the type language, we'll represent those with an exclamation mark.
+- `Post` is a _GraphQL Object Type_, meaning it's a type with some fields. Most of the types in your schema will be object types.
+- `id` and `title` are fields on the `Post` type. That means that `id` and `title` are the only fields that can appear in any part of a GraphQL query that operates on the `Post` type.
+- `String` is one of the built-in _scalar_ types (together with `Float`/`Int`/`Boolean`) - these are types that resolve to a single scalar object, and can't have sub-selections in the query. Think of it as a primitive type for now.
+- `String!` means that the field is non-nullable, meaning that the GraphQL service promises to always give you a value when you query this field. In the type language, we'll represent those with an exclamation mark.
 
 ### should exist on schema
 
@@ -364,8 +330,8 @@ const posts = await request({
 
 #### can return the users' handle
 
-* Define a `User` type
-* Define the relation between `Post` and `User` (`User!`)
+- Define a `User` type
+- Define the relation between `Post` and `User` (`User!`)
 
 #### can return the users' firstName
 
@@ -399,11 +365,11 @@ Once you've done the above you should be equipped with knowledge to define your 
 
 ## Ideas for challenges
 
-* Make it into an actual blog! Try to add the queries so that [`web/`](web) works (server-rendered React app using Next.js)
-* Add `limit` and `page` for pagination.
-* `Comment` <-> `Post` relationship + resolvers
-* Ability to add posts / comments (Mutations)
-* Try deploying your services using [now.sh](https://now.sh/)
+- Make it into an actual blog! Try to add the queries so that [`web/`](web) works (server-rendered React app using Next.js)
+- Add `limit` and `page` for pagination.
+- `Comment` <-> `Post` relationship + resolvers
+- Ability to add posts / comments (Mutations)
+- Try deploying your services using [now.sh](https://now.sh/)
 
 ## Deploy using now.sh
 
@@ -437,3 +403,9 @@ Get the URL from your GraphQL-service.
 cd web
 now -e GRAPHQL_URL=https://...something.now.sh
 ```
+
+### Live example
+
+- REST API: [graphql-workshop-rest.kattcorp.com](https://graphql-workshop-rest.kattcorp.com/)
+- GraphQL Gateway: [graphql-workshop-gateway.kattcorp.com](https://graphql-workshop-gateway.kattcorp.com/)
+- React SSR App: [graphql-workshop-web.kattcorp.com](https://graphql-workshop-web.kattcorp.com/)
