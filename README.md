@@ -1,6 +1,37 @@
 # GraphQL workshop
 
-<!-- TOC -->autoauto- [GraphQL workshop](#graphql-workshop)auto    - [Introduction](#introduction)auto    - [Motivation: REST and some headaches over time](#motivation-rest-and-some-headaches-over-time)auto        - [Data requirements changes over time](#data-requirements-changes-over-time)auto        - [GraphQL is a 🌟 here](#graphql-is-a-🌟-here)auto    - [Getting started](#getting-started)auto        - [Folder Structure](#folder-structure)auto        - [How to work](#how-to-work)auto        - [URLs](#urls)auto        - [Test query](#test-query)auto        - [Run test watcher](#run-test-watcher)auto- [Implementing your posts resolver - `posts.spec.js`](#implementing-your-posts-resolver---postsspecjs)auto    - [definition](#definition)auto        - [should exist on schema](#should-exist-on-schema)auto        - [should contain fields _[...]_](#should-contain-fields-__)auto        - [Query.posts should be defined](#queryposts-should-be-defined)auto    - [querying posts](#querying-posts)auto        - [without params](#without-params)auto            - [returns a post array](#returns-a-post-array)auto            - [returns posts](#returns-posts)auto        - [with `limit` argument](#with-limit-argument)auto        - [when getting related users](#when-getting-related-users)auto            - [can return the users' handle](#can-return-the-users-handle)auto            - [can return the users' firstName](#can-return-the-users-firstname)auto            - [can batch fetch users](#can-batch-fetch-users)auto- [What's next?](#whats-next)auto    - [Ideas for challenges](#ideas-for-challenges)auto    - [Deploy using now.sh](#deploy-using-nowsh)auto        - [… your REST-service](#-your-rest-service)auto        - [… your GraphQL-service](#-your-graphql-service)auto        - [… your React-app](#-your-react-app)autoauto<!-- /TOC -->
+- [GraphQL workshop](#graphql-workshop)
+  - [Introduction](#introduction)
+  - [Motivation: REST and some headaches over time](#motivation-rest-and-some-headaches-over-time)
+    - [Data requirements changes over time](#data-requirements-changes-over-time)
+    - [GraphQL is a 🌟 here](#graphql-is-a-%F0%9F%8C%9F-here)
+  - [Getting started](#getting-started)
+    - [Folder Structure](#folder-structure)
+    - [How to work](#how-to-work)
+    - [URLs](#urls)
+    - [Test query](#test-query)
+    - [Run test watcher](#run-test-watcher)
+- [Implementing your posts resolver - `posts.spec.js`](#implementing-your-posts-resolver---postsspecjs)
+  - [definition](#definition)
+    - [should exist on schema](#should-exist-on-schema)
+    - [should contain fields _[...]_](#should-contain-fields)
+    - [Query.posts should be defined](#queryposts-should-be-defined)
+  - [querying posts](#querying-posts)
+    - [without params](#without-params)
+      - [returns a post array](#returns-a-post-array)
+      - [returns posts](#returns-posts)
+    - [with `limit` argument](#with-limit-argument)
+    - [when getting related users](#when-getting-related-users)
+      - [can return the users' handle](#can-return-the-users-handle)
+      - [can return the users' firstName](#can-return-the-users-firstname)
+      - [can batch fetch users](#can-batch-fetch-users)
+- [What's next?](#whats-next)
+  - [Ideas for challenges](#ideas-for-challenges)
+  - [Deploy using now.sh](#deploy-using-nowsh)
+    - [… your REST-service](#your-rest-service)
+    - [… your GraphQL-service](#your-graphql-service)
+    - [… your React-app](#your-react-app)
+    - [Live example](#live-example)
 
 ## Introduction
 
