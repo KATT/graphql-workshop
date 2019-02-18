@@ -18,5 +18,18 @@
   "devDependencies": {
     "faker": "^4.1.0",
     "nodemon": "^1.17.3"
+  },
+  "now": {
+    "version": 2,
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "regions": [
+      "sfo",
+      "bru"
+    ],
+    "alias": [
+      "graphql-workshop-rest.kattcorp.com"
+    ]
   }
 }

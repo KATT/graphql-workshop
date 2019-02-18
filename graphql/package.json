@@ -21,5 +21,18 @@
     "lodash": "^4.17.10",
     "request": "^2.85.0",
     "request-promise-native": "^1.0.5"
+  },
+  "now": {
+    "version": 2,
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "regions": [
+      "sfo",
+      "bru"
+    ],
+    "alias": [
+      "graphql-workshop-gateway.kattcorp.com"
+    ]
   }
 }

@@ -24,5 +24,18 @@
     "babel-preset-env": "^7.0.0-beta.3"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "now": {
+    "version": 2,
+    "env": {
+      "NODE_ENV": "production"
+    },
+    "regions": [
+      "sfo",
+      "bru"
+    ],
+    "alias": [
+      "graphql-workshop-web.kattcorp.com"
+    ]
+  }
 }
