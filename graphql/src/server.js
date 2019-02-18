@@ -4,6 +4,10 @@ const request = require('request-promise-native');
 const querystring = require('querystring');
 const _ = require('lodash');
 
+if (process.env.NODE_ENV === 'production' && !process.env.REST_SERVICE_URL) {
+  throw new Error('Missing env var: process.env.REST_SERVICE_URL');
+}
+
 const { REST_SERVICE_URL = 'http://localhost:3101' } = process.env;
 
 const resolvers = {

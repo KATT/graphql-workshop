@@ -1,6 +1,10 @@
 const FriendlyErrorsWebpackPlugin = require('friendly-errors-webpack-plugin');
 const webpack = require('webpack');
 
+if (process.env.NODE_ENV === 'production' && !process.env.GRAPHQL_URL) {
+  throw new Error('Missing env var: process.env.GRAPHQL_URL');
+}
+
 module.exports = {
   webpack(config, { isServer, dev }) {
     if (dev && !isServer) {
